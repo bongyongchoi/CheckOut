@@ -1,0 +1,62 @@
+﻿<Window x:Class="check.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:check"
+        mc:Ignorable="d"
+        Title="미복귀자 검색 프로그램" Height="350" Width="525"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    
+    <TabControl>
+        
+        <TabItem Header="파일 불러오기">
+            <Grid>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Name="FilePathTextBlcok" Margin="10" VerticalAlignment="Center"/>
+                    <Button Name="LoadFileButton" Content="파일 불러오기" Click="LoadFileButton_Click" HorizontalAlignment="Center" Height="30"/>
+                    <TextBlock Name="ErrorTextBlock" Margin="10"/>
+                </StackPanel>
+                
+
+            </Grid>
+        </TabItem>
+        <TabItem Header="파일 내보내기">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="8*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox Margin="5,0,0,0" Name="SearchBox" Width="150" Height="25" VerticalAlignment="Center" KeyDown="OnKeyDownHandler"/>
+                        <Button Margin="5,0,0,0" Height="25" Content="검색" Click="SearchButton_Click" VerticalAlignment="Center"/>
+                    </StackPanel>
+                  
+                </Grid>
+                <DataGrid Grid.Row="1" Margin="0,10" Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False"  IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="날짜"  Binding="{Binding Path=ymd, StringFormat=yyyy-dd-MM}"/>
+                        <DataGridTextColumn Header="시간"  Binding="{Binding Path=hms}"/>
+                        <DataGridTextColumn Header="이름"  Binding="{Binding Path=name}"/>
+                        <DataGridTextColumn Header="호실" Binding="{Binding Path=roomNum}"/>
+                        <DataGridTextColumn Header="터미널 넘버"  Binding="{Binding Path=termId}"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="Copy"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <Button Margin="10,0,0,0" x:Name="SaveOneButton" Content="검색학생 내보내기" Grid.Row="2" Click="SaveOneButton_Click" IsEnabled="{Binding Path=IsSearch }"/>
+                    <Button Margin="10,0,0,0" x:Name="SaveAllButton" Content="전체학생 내보내기" Grid.Row="2" Click="SaveAllButton_Click" IsEnabled="{Binding Path=IsLoad}"/>
+                    <Button Margin="10,0,0,0" x:Name="SaveOutButton" Content="미복귀자 내보내기" Grid.Row="2" Click="SaveOutButton_Click" IsEnabled="{Binding Path=IsLoad}"/>
+                </StackPanel>
+                
+            </Grid>
+        
+        </TabItem>
+    </TabControl>
+</Window>
