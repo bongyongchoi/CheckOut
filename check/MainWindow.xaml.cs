@@ -90,7 +90,7 @@ namespace check
            
         private void SaveOneButton_Click(object sender, RoutedEventArgs e)
         {
-            saveFile(writeOne);
+            saveFile(writeOne.OrderBy(i => i.roomNum).ToList());
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -102,7 +102,6 @@ namespace check
         {
             if(readAll != null)
             {
-               
                 var query = from item in readAll
                             where item.name == SearchBox.Text
                             select item;
@@ -114,17 +113,19 @@ namespace check
                     foreach (var item in query)
                     {
                         GridModel gm = new GridModel() { name = item.name
-                        ,hms = item.hms.TimeOfDay
+                        ,hms = item.hms
                         ,termId = item.termId
                         ,roomNum = item.roomNum
-                        ,ymd = item.ymd.ToShortDateString()};
-                     
+                        ,ymd = item.ymd};
+                        //item.ymd.ToShortDateString()
                         WriteItem wi = new WriteItem() { ymd = item.ymd, hms = item.hms
                         , name = item.name, roomNum = item.roomNum, termId = item.termId };
                         writeOne.Add(wi);
                         oneGridModel.Add(gm);
-                        IsSearch = true;
                     }
+                    IsSearch = true;
+                    DG1.Items.SortDescriptions.Clear();
+                    DG1.Items.SortDescriptions.Add(new SortDescription("roomNum", ListSortDirection.Ascending));
                 }
             }
         }
@@ -162,7 +163,7 @@ namespace check
             {
                 if(!writeAll.Any())
                 {
-                    var query = readAll.OrderBy(i => i.hms).GroupBy(i => new { i.name, i.roomNum });
+                    var query = readAll.OrderBy(i => i.time).GroupBy(i => new { i.name, i.roomNum });
                     foreach (var items in query)
                     {
                         foreach (var item in items)
@@ -189,7 +190,7 @@ namespace check
             {
                 if(!writeOut.Any())
                 {
-                    var query = readAll.OrderBy(i => i.hms).GroupBy(i => new { i.name, i.roomNum });
+                    var query = readAll.OrderBy(i => i.time).GroupBy(i => new { i.name, i.roomNum });
                     foreach (var item in query)
                     {
                         var lastItem = item.Last();
@@ -210,6 +211,35 @@ namespace check
                 saveFile(writeOut);  
             }
         }
+
+        private void SaveInButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (readAll != null)
+            {
+                if (!writeOut.Any())
+                { 
+                    var query = readAll.OrderBy(i => i.time).GroupBy(i => new { i.name, i.roomNum});
+                    foreach (var item in query)
+                    {
+                        var lastItem = item.Last();
+                        if (lastItem.termId != 2)
+                        {
+                            WriteItem wi = new WriteItem()
+                            {
+                                ymd = lastItem.ymd,
+                                hms = lastItem.hms,
+                                name = lastItem.name,
+                                roomNum = lastItem.roomNum,
+                                termId = lastItem.termId
+                            };
+                            writeOut.Add(wi);
+                        }
+                    }
+                }
+                saveFile(writeOut);
+            }
+        }
+
         private void InitSettings()
         {
             readAll = null;

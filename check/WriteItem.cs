@@ -11,10 +11,10 @@ namespace check
     [DelimitedRecord(","), IgnoreFirst]
     class WriteItem : INotifyWrite
     {
-        [FieldConverter(ConverterKind.Date, "yyyy-dd-MM")]
-        public DateTime ymd;
-        [FieldConverter(ConverterKind.Date, "H:mm:ss")]
-        public DateTime hms;
+        //[FieldConverter(ConverterKind.Date, "yyyy-dd-MM")]
+        public string ymd;
+        //[FieldConverter(ConverterKind.Date, "H:mm:ss")]
+        public string hms;
         public string name;
         public int roomNum;
         public int termId;

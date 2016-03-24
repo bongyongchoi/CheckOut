@@ -35,7 +35,7 @@
                     </StackPanel>
                   
                 </Grid>
-                <DataGrid Grid.Row="1" Margin="0,10" Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False"  IsReadOnly="True">
+                <DataGrid Grid.Row="1" Margin="0,10" Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False"  IsReadOnly="True" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="날짜"  Binding="{Binding Path=ymd, StringFormat=yyyy-dd-MM}"/>
                         <DataGridTextColumn Header="시간"  Binding="{Binding Path=hms}"/>
@@ -53,6 +53,7 @@
                     <Button Margin="10,0,0,0" x:Name="SaveOneButton" Content="검색학생 내보내기" Grid.Row="2" Click="SaveOneButton_Click" IsEnabled="{Binding Path=IsSearch }"/>
                     <Button Margin="10,0,0,0" x:Name="SaveAllButton" Content="전체학생 내보내기" Grid.Row="2" Click="SaveAllButton_Click" IsEnabled="{Binding Path=IsLoad}"/>
                     <Button Margin="10,0,0,0" x:Name="SaveOutButton" Content="미복귀자 내보내기" Grid.Row="2" Click="SaveOutButton_Click" IsEnabled="{Binding Path=IsLoad}"/>
+                    <Button Margin="10,0,0,0" x:Name="SaveInButton" Content="복귀자 내보내기" Grid.Row="2" Click="SaveInButton_Click" IsEnabled="{Binding Path=IsLoad}"/>
                 </StackPanel>
                 
             </Grid>

@@ -12,7 +12,7 @@ namespace check
         public string name { get; set; }
         public string ymd { get; set; }
 
-        public TimeSpan hms { get; set; }
+        public string hms { get; set; }
         public int termId { get; set; }
         public int roomNum { get; set; }
     }

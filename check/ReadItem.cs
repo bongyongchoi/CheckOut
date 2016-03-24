@@ -12,10 +12,10 @@ namespace check
     [DelimitedRecord(","), IgnoreFirst]
     class ReadItem : INotifyRead, INotifyWrite
     {
-        [FieldConverter(ConverterKind.Date, "yyyy-dd-MM")]
-        public DateTime ymd;
-        [FieldConverter(ConverterKind.Date, "H:mm:ss")]
-        public DateTime hms;
+        //[FieldConverter(ConverterKind.Date, "yyyy-dd-MM")]
+        public string ymd;
+        //[FieldConverter(ConverterKind.Date, "H:mm:ss")]
+        public string hms;
         public int termId;
         public int userId;
         public string name;
@@ -31,6 +31,8 @@ namespace check
         string result;
         [FieldHidden]
         public int roomNum;
+        [FieldHidden]
+        public DateTime time;
 
         public override string ToString()
         {
@@ -57,6 +59,7 @@ namespace check
             }
             else
             {
+                time = DateTime.Parse(ymd + " " + hms);
                 int subEndNum = name.IndexOf("(");
                 roomNum = int.Parse(name.Substring(subEndNum + 1, 3));
                 name = Regex.Replace(name.Substring(0, subEndNum), @"\d", "");
